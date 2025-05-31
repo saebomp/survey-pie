@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-function Item({ children, onChange }) {
+function Item({ children, checked, onChange }) {
   return (
     <ItemWrapper>
       <label>
-        <input type="checkbox" onChange={onChange} />
+        <input type="checkbox" checked={checked} onChange={onChange} />
         <span />
         <div>{children}</div>
       </label>
@@ -17,6 +17,11 @@ function SelectInput({ answer = [], setAnswer, options }) {
   const handleChange = (isChecked, index) => {
     // console.log("answer", answer, index);
     if (isChecked) {
+      const max = options?.max ?? 1;
+
+      if (answer.length >= max) {
+        return;
+      }
       //setAnswer (index 추가)
       setAnswer([...answer, index]); //체크된 값을 배열로 관리. 이미선택된 값 answer를 추가하고, 새로 추가된값 index 넣기
     } else {
@@ -30,6 +35,7 @@ function SelectInput({ answer = [], setAnswer, options }) {
         return (
           <Item
             key={index}
+            checked={answer.includes(index)}
             onChange={(e) => {
               handleChange(e.target.checked, index);
             }}
@@ -49,10 +55,10 @@ const SelectInputWrapper = styled.div`
 `;
 
 const ItemWrapper = styled.div`
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     display: none;
   }
-  input[type="checkbox"] ~ span {
+  input[type='checkbox'] ~ span {
     width: 24px;
     height: 24px;
     border: 3px solid #e2dfdf;
@@ -62,16 +68,16 @@ const ItemWrapper = styled.div`
     vertical-align: middle;
     margin-right: 10px;
   }
-  input[type="checkbox"]:checked ~ span {
+  input[type='checkbox']:checked ~ span {
     border: 8px solid #6542f1;
   }
-  input[type="checkbox"] ~ div {
+  input[type='checkbox'] ~ div {
     font-size: 14px;
     line-height: 18px;
     display: inline-block;
     vertical-align: middle;
   }
-  input[type="checkbox"]:checked ~ div {
+  input[type='checkbox']:checked ~ div {
     font-weight: bold;
   }
 `;

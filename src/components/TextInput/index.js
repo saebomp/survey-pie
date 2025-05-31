@@ -9,6 +9,8 @@ function TextInput({ answer = '', setAnswer, options }) {
         setAnswer(e.target.value);
       }}
       placeholder={options.placeholder}
+      // maxLength={options?.max}
+      {...(options?.max && { maxLength: options?.max })} //max가 undefined 아닌경우 maxLength를 options의 max로 세팅하고 max가 undefined 이면 이 구문자체가 없는 취급됨
     />
   );
 }
